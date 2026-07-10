@@ -1,0 +1,11 @@
+data/*/train.bin
+data/*/val.bin
+data/*/meta.json
+data/*/input.txt
+checkpoints/
+__pycache__/
+*.pyc
+prompt.md
+prompt (5).md
+.env
+.ipynb_checkpoints/
