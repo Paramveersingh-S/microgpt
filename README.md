@@ -1,4 +1,4 @@
-# microGPT 🧠
+# microGPT 
 
 <div align="center">
   <img src="logo.png" alt="microGPT Logo" width="200" />
@@ -61,7 +61,7 @@ graph TD
 </div>
 
 ### Sample Generations
-*(Placeholder for sample generation after training on TinyStories)*
+
 ```text
 [Prompt]: Once upon a time
 [Completion]: ...
