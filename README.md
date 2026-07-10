@@ -32,25 +32,39 @@ microGPT is a compact, high-performance autoregressive language model built from
 
 ```mermaid
 graph TD
-    A[Input Tokens] --> B[Token Embedding]
-    B --> C{Transformer Blocks x N}
+    classDef input fill:#2563eb,stroke:#1e40af,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+    classDef norm fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+    classDef attn fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef mlp fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef merge fill:#475569,stroke:#334155,stroke-width:2px,color:#fff,shape:circle;
+    classDef output fill:#ef4444,stroke:#b91c1c,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+
+    A([Input Tokens]):::input --> B[Token Embedding]:::input
+    B --> C{N x Transformer Blocks}
     
-    subgraph Transformer Block
-    C1[RMSNorm] --> C2[Causal Self-Attention]
-    C2 --> C3[Grouped Query Attention GQA]
-    C3 --> C4[RoPE Injection]
-    C4 --> C5[Residual Add]
-    C5 --> C6[RMSNorm]
-    C6 --> C7[SwiGLU MLP]
-    C7 --> C8[Residual Add]
+    subgraph Transformer Block [Transformer Block Architecture]
+        direction TB
+        C1[RMSNorm]:::norm --> C2[Causal Self-Attention]:::attn
+        C2 --> C3[Grouped Query Attention GQA]:::attn
+        C3 --> C4[RoPE Injection]:::attn
+        C4 --> C5((+)):::merge
+        
+        C5 --> C6[RMSNorm]:::norm
+        C6 --> C7[SwiGLU MLP]:::mlp
+        C7 --> C8((+)):::merge
     end
     
     C --> C1
-    C8 --> D[Final RMSNorm]
-    D --> E[Linear LM Head]
-    E --> F[Next Token Probabilities]
     
-    style Transformer Block fill:#f9f9f9,stroke:#333,stroke-width:2px
+    %% Residual Connections (Using invisible nodes/direct paths)
+    C -- "Residual Stream" ---> C5
+    C5 -- "Residual Stream" ---> C8
+
+    C8 --> D[Final RMSNorm]:::norm
+    D --> E[Linear LM Head]:::output
+    E --> F([Next Token Probabilities]):::output
+    
+    style Transformer Block fill:#f8fafc,stroke:#94a3b8,stroke-width:2px,stroke-dasharray: 5 5,rx:10px,ry:10px;
 ```
 
 ## Results
