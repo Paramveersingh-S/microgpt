@@ -56,9 +56,8 @@ graph TD
 ## Results
 
 ### Training Loss Curve
-*(Placeholder for WandB/matplotlib loss curve after full training run)*
 <div align="center">
-  <img src="https://placehold.co/600x400?text=Loss+Curve" alt="Loss Curve Placeholder">
+  <img src="loss_curve.png" alt="Training Loss Curve" width="600">
 </div>
 
 ### Sample Generations
