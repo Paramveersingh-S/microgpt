@@ -100,7 +100,7 @@ def main():
     ptdtype = torch.bfloat16 if torch.cuda.is_available() and torch.cuda.is_bf16_supported() else torch.float16
     ctx = torch.amp.autocast(device_type=device_type, dtype=ptdtype) if device_type == 'cuda' else torch.amp.autocast(device_type=device_type, enabled=False)
     
-    scaler = torch.cuda.amp.GradScaler(enabled=(ptdtype == torch.float16)) if device_type == 'cuda' else None
+    scaler = torch.amp.GradScaler('cuda', enabled=(ptdtype == torch.float16)) if device_type == 'cuda' else None
 
     try:
         train_loader = DataLoader(data_dir, 'train', config.block_size, t_config.batch_size, device)
