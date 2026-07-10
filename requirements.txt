@@ -1,0 +1,7 @@
+torch>=2.4
+tiktoken
+datasets
+numpy
+tqdm
+wandb
+pytest
